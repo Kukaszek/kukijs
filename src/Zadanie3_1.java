@@ -1,10 +1,11 @@
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Zadanie3_1 {
-    public static void main(String[] args)throws FileNotFoundException {
-        PrintWriter zapis = new PrintWriter("wynik.txt");
+    public static void main(String[] args) {
         Scanner klaw = new Scanner(System.in);
 
 
@@ -13,16 +14,23 @@ public class Zadanie3_1 {
         System.out.println("Podaj liczbe godzin podróży: ");
         int godziny = klaw.nextInt();
 
-        if (predkosc >= 0 && godziny > 1) {
-            for (int i = 1; i <= godziny; i++) {
-                int droga = predkosc * i;
-                zapis.println(i + " " + droga);
-                zapis.close();
+        File file = new File("wynik.txt");
+        try {
+            FileWriter writer = new FileWriter(file);
+
+            if (predkosc >= 0 && godziny > 1) {
+                for (int i = 1; i <= godziny; i++) {
+                    int droga = predkosc * i;
+                    writer.write(i + " " + droga);
+                }
+            } else {
+                writer.write("Błędne dane!");
             }
-        } else {
-            zapis.println("Błędne dane!");
-            zapis.close();
+        } catch (IOException e) {
+            System.out.println("Wystąpił błąd podczas zapisu do pliku: " + e.getMessage());
+
         }
+
+
     }
 }
-
